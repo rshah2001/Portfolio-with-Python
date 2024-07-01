@@ -5,7 +5,7 @@ st.set_page_config(layout="wide")
 col1, col2 = st.columns(2)
 
 with col1:
-    st.image("images/photo.png")
+    st.image("images/photo.png", width=450)
 
 with col2:
     st.title("Rishil Shah")
@@ -22,20 +22,28 @@ with col2:
     """
     st.info(content)
 
-content2 = """
-Below you can find some of the apps I have built in Python. Feel free to contact me! 
-"""
-st.write(content2)
 
-col3, col4 = st.columns(2)
+content2 = """
+<b>Below you can find some of the apps I have built in Python! </b>
+"""
+st.markdown(content2, unsafe_allow_html=True)
+
+# st.columns(1.5, 0.5, 1.5) this means that the left and right column will be 3 times the middle column
+col3, empty_col, col4 = st.columns([1.5, 0.5, 1.5])
 
 df = pandas.read_csv("data.csv", sep=";")
 
 with col3:
     # "iterrows" gives access to rows
-    for index , row in df[:10].iterrows():
+    for index, row in df[:10].iterrows():
         st.header(row["title"])
+        st.write(row["description"])
+        st.image("images/" + row["image"])
+        st.write(f"[Source Code]({row['url']})")
 
 with col4:
     for index, row in df[10:].iterrows():
         st.header(row["title"])
+        st.write(row["description"])
+        st.image(["images/" + row["image"]])
+        st.write(f"[Source Code]({row['url']})")
